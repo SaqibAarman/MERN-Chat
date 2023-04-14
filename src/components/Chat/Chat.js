@@ -4,10 +4,14 @@ import { BsFillSendCheckFill, BsPlusCircle } from "react-icons/bs";
 import { AuthContext } from "../../context/AuthContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
+import { ChatContext } from "../../context/ChatContext";
 
 const Chat = () => {
   const [chats, setChats] = useState([]);
   const { currentUser } = useContext(AuthContext);
+
+  const {data} = useContext(ChatContext);
+  console.log(data,'[]]');
 
   useEffect(() => {
     const getChats = () => {

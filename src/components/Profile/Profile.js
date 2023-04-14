@@ -13,12 +13,16 @@ import {
 import { db } from "../../firebase";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ChatContext } from "../../context/ChatContext";
 
 const Profile = () => {
   const [users, setUsers] = useState([]);
   const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const { dispatch, data } = useContext(ChatContext);
+
+  // console.log(data,'[]');
 
   useEffect(() => {
     async function getUsersList() {
@@ -92,6 +96,11 @@ const Profile = () => {
         // });
       }
       navigate(`/chat/${combineId}`);
+
+      dispatch({
+        type: "CHANGE_USER",
+        payload: user,
+      });
     } catch (error) {
       console.log(error);
     }
