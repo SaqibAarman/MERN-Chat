@@ -1,0 +1,81 @@
+.profile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  overflow: hidden;
+  touch-action: none;
+  padding: 15px;
+}
+
+.card {
+  width: 400px;
+  position: relative;
+  box-shadow: 0 0 2px #dfdfdf;
+  margin: 25px auto;
+  background: #00103c;
+  height: max-content;
+  text-decoration: none;
+  color: white;
+  border-radius: 15px;
+  border: 1px solid gray;
+}
+
+.card-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: max-content;
+  padding: 25px;
+}
+
+.card-thumb > img {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card-thumb > img:hover {
+  transform: scale(1);
+}
+
+.content {
+  margin: 25px;
+  padding: 25px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  color: #c3c3c3;
+}
+
+.content > h2 {
+  font-size: 24px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.content > span {
+  font-size: 18px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.messageBtn {
+  color: #8e8a8a;
+  padding: 15px 25px;
+  text-decoration: none;
+  font-size: 18px;
+  border: 1px solid rgb(134, 131, 131);
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.messageBtn:hover {
+  background-color: #00103c;
+  color: white;
+  border: none;
+}

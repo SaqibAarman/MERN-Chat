@@ -1,0 +1,37 @@
+.dashboard {
+  margin-top: 50px;
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  overflow: hidden;
+  padding: 10px;
+  width: 95%;
+  border-radius: 50px;
+  background-color: #fff;
+}
+
+.profile {
+  padding: 10px;
+  text-decoration: none;
+}
+
+.profile > img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.profile > img:hover {
+  transform: scale(1.5);
+}
+
+/* .dot {
+  padding: 5px;
+  border-radius: 50%;
+  background: red;
+  position: absolute;
+  top: 7;
+} */
