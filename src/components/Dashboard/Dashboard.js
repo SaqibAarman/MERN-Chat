@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Dashboard.css";
-import { faker } from "@faker-js/faker";
-import { Link } from "react-router-dom";
+import { db } from "../../firebase";
+import { doc, onSnapshot } from "firebase/firestore";
+import { AuthContext } from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-  const [users, setUsers] = useState([]);
+  const [chats, setChats] = useState([]);
+  const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    function generateUser() {
-      let users = [];
-      for (let i = 0; i < 10; i++) {
-        users.push({
-          userId: faker.datatype.uuid(),
-          avatar: faker.image.avatar(),
-        });
-      }
-      setUsers(users);
-    }
-    generateUser();
-  }, []);
+    const getChats = () => {
+      const unSubscribe = onSnapshot(
+        doc(db, "userChats", currentUser.uid),
+        (doc) => {
+          setChats(doc.data());
+        }
+      );
+
+      return () => {
+        unSubscribe();
+      };
+    };
+
+    currentUser.uid && getChats();
+  }, [currentUser.uid]);
 
   const onWheel = (e) => {
     e.preventDefault();
@@ -32,14 +41,29 @@ const Dashboard = () => {
     });
   };
 
+  const handleSelect = (user, id) => {
+    dispatch({
+      type: "CHANGE_USER",
+      payload: user,
+    });
+
+    navigate(`/chat/${id}`);
+  };
+
   return (
     <div className="dashboard" id="dashboard" onWheel={onWheel}>
-      {users.map((user) => (
-        <Link to={`/chat/${user.userId}`} className="profile" key={user.userId}>
-          <img src={user.avatar} alt="avatar" />
-          <span className="dot"></span>
-        </Link>
-      ))}
+      {Object.entries(chats)
+        ?.sort((a, b) => b[1].date - a[1].date)
+        .map((chat) => (
+          <div
+            className="profile"
+            key={chat[0]}
+            onClick={() => handleSelect(chat[1].userInfo, chat[0])}
+          >
+            <img src={chat[1].userInfo.photoURL} alt="photoURL" />
+            <span className="dot"></span>
+          </div>
+        ))}
     </div>
   );
 };

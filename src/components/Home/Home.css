@@ -20,8 +20,6 @@
     #600058,
     #3f006d
   );
-  /* flex-direction: column; */
-  /* border: 1px solid red; */
 }
 
 .wrapperCont {
@@ -36,6 +34,5 @@
 }
 
 .icon:hover {
-  /* transition: ease-in-out; */
   transform: scale(1.5);
 }

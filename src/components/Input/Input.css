@@ -1,0 +1,37 @@
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 75%;
+  margin: 15px;
+}
+
+.input > input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid gray;
+  border-radius: 50px;
+  outline: none;
+}
+
+.input > span {
+  padding: 7px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.input > span:nth-child(1) {
+  margin-right: 15px;
+}
+
+.icon {
+  margin-left: 15px;
+  padding: 10px;
+}
+
+.icon:hover {
+  transform: scale(1.5);
+}

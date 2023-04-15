@@ -32,8 +32,13 @@
 .card-thumb > img {
   width: 125px;
   height: 125px;
+  border: 1px solid white;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.card-thumb > img:hover {
+  transform: scale(1.5);
 }
 
 .card-thumb > img:hover {

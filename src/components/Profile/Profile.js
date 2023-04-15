@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Profile.css";
-// import { Link } from "react-router-dom";
 import {
   collection,
   doc,
@@ -12,24 +11,20 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { ChatContext } from "../../context/ChatContext";
 
 const Profile = () => {
   const [users, setUsers] = useState([]);
   const { currentUser } = useContext(AuthContext);
-
-  const navigate = useNavigate();
-  const { dispatch, data } = useContext(ChatContext);
-
-  // console.log(data,'[]');
 
   useEffect(() => {
     async function getUsersList() {
       let filteredUser = [];
       const userRef = getDocs(collection(db, "users"));
       (await userRef).forEach((doc) => {
-        if (currentUser.displayName !== doc.data().displayName) {
+        if (
+          currentUser?.displayName !== doc.data().displayName &&
+          !doc.data().chatStarted
+        ) {
           filteredUser.push(doc.data());
         }
       });
@@ -38,7 +33,7 @@ const Profile = () => {
     }
 
     getUsersList();
-  }, [currentUser]);
+  }, [currentUser?.displayName]);
 
   const onWheel = (e) => {
     e.preventDefault();
@@ -52,10 +47,12 @@ const Profile = () => {
     });
   };
 
-  // console.log(users); to={`/chat/${user.uid}`}
+  const handleUpdateUsers = async (user) => {
+    // Here We are updating User To Remove Card Profile Once They Clicked and started to Chat
+    await updateDoc(doc(db, "users", user.uid), {
+      chatStarted: true,
+    });
 
-  const handleCreateChat = async (user) => {
-    // console.log(userId,'ID');
     // Check Whether Group ( Chat In FireStore ) exists, if not Create
     const combineId =
       currentUser.uid > user.uid
@@ -67,11 +64,9 @@ const Profile = () => {
 
       if (!res.exists()) {
         // Create User Chat In Chats Collection
-
         await setDoc(doc(db, "chats", combineId), { messages: [] });
 
         // Create User Chats --> To get latest message and User Details With whom the current user chatting with
-
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combineId + ".userInfo"]: {
             uid: user.uid,
@@ -89,18 +84,14 @@ const Profile = () => {
           },
           [combineId + ".date"]: serverTimestamp(),
         });
-
-        // To Update The User Collection TO filter out the already texted user and remove the card from the list of profiles.
-        // await updateDoc(doc(db, "users", user.displayName), {
-        //   chatStarted: true,
-        // });
       }
-      navigate(`/chat/${combineId}`);
 
-      dispatch({
-        type: "CHANGE_USER",
-        payload: user,
-      });
+      //   dispatch({
+      //     type: "CHANGE_USER",
+      //     payload: user,
+      //   });
+
+      //   navigate(`/chat/${combineId}`);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +110,7 @@ const Profile = () => {
             <span>{user.email !== null ? user.email : "No Email"}</span>
 
             <button
-              onClick={() => handleCreateChat(user)}
+              onClick={() => handleUpdateUsers(user)}
               className="messageBtn"
             >
               Message

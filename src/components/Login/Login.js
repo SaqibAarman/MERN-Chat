@@ -12,8 +12,7 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      signInWithPopup(auth, provider).then(async (data) => {
-        // console.log(data.user);
+      await signInWithPopup(auth, provider).then(async (data) => {
         // Add user To FireStore DB
         await setDoc(doc(db, "users", data.user.uid), {
           uid: data.user.uid,

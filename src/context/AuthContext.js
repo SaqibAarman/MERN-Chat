@@ -10,7 +10,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      console.log(user);
     });
 
     // Clean Up Function To OverCome Memory Leakage
