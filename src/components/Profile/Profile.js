@@ -88,7 +88,7 @@ const Profile = () => {
       
       // To reload after the profile message button clicked 
 
-      window.reload()
+      window.location.reload()
 
       //   dispatch({
       //     type: "CHANGE_USER",
