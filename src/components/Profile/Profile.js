@@ -85,6 +85,10 @@ const Profile = () => {
           [combineId + ".date"]: serverTimestamp(),
         });
       }
+      
+      // To reload after the profile message button clicked 
+
+      window.reload()
 
       //   dispatch({
       //     type: "CHANGE_USER",
